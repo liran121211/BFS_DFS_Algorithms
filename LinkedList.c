@@ -18,7 +18,7 @@ void addTail(LinkedList* list, int val) {
 
 	if (list->arr == NULL) {
 		list->arr = makeNode(val);
-		list->size += 1;
+		list->size++;
 		return;
 	}
 
@@ -26,7 +26,7 @@ void addTail(LinkedList* list, int val) {
 		list->arr = list->arr->next;
 
 	list->arr->next = makeNode(val);
-	list->size += 1;
+	list->size++;
 	list->arr = head; // return to head of the list.
 }
 
@@ -62,44 +62,63 @@ void printList(LinkedList* list) {
 			list->arr = list->arr->next;
 		}
 
-		//printf("Size: %d\n", list->size);
 		list->arr = head; // return to head of the list.
 	}
 }
 
 void removeTail(LinkedList* list) {
-	if (list == NULL)
+	Node* removable_node = NULL; // keep node for deallocation.
+
+	if (list == NULL) // if list is NULL.
 		return;
-	if (list->arr == NULL)
+
+	if (list->arr == NULL) // if list is empty.
 		return;
 
 	Node* head = list->arr;
 
 	if (list->arr->next == NULL) { // if only 1 node to delete
+		removable_node = list->arr;
 		list->arr = NULL;
+		list->size--;
+		free(removable_node);
 		return;
 	}
 
 	while (list->arr->next->next != NULL) // iterate till last node
 		list->arr = list->arr->next;
 
+	removable_node = list->arr->next;
 	list->arr->next = NULL;
 	list->arr = head;
+	list->size--;
+	free(removable_node);
 }
 
 void removeHead(LinkedList* list) {
-	if (list == NULL)
+	Node* removable_node = NULL; // keep node for deallocation.
+
+	if (list == NULL) // if list is NULL.
 		return;
 
-	if (list->arr == NULL)
+	if (list->arr == NULL) // if list is empty.
 		return;
 
 	if (list->arr->next == NULL) {
 		list->arr = NULL;
-		return;
-	}
-	else
+		list->size--;
+	} else {
+		removable_node = list->arr;
 		list->arr = list->arr->next;
+		list->size--;
+		free(removable_node); // free allocated node.
+	}
+}
+void deallocLinkedList(LinkedList* list) {
+	if (list == NULL) // if list is NULL.
+		return;
 
-	return;
+	while (list->size != 0) { // keep deleting node utill list is empty.
+		removeTail(list);
+	}
 }

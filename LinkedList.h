@@ -20,5 +20,6 @@ Node* getHead(LinkedList*);
 Node* getTail(LinkedList*);
 void removeTail(LinkedList*);
 void removeHead(LinkedList*);
+void deallocLinkedList(LinkedList*);
 
 
