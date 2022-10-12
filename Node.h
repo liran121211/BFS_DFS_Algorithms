@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
 
 /**
 * Node is a struct of pointer-val to pointer-val

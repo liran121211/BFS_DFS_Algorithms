@@ -1,5 +1,6 @@
 ﻿#include "NeighborhoodList.h"
 #include "Queue.h"
+
 #define VERTICES_SIZE 6
 #define INFINITE INT_MAX
 #define WHITE 0
@@ -44,15 +45,24 @@ int main(int argc, char* argv) {
 	addNeighbor(vertex, 5, 4);
 	addNeighbor(vertex, 5, 1);
 	addNeighbor(vertex, 5, 2);
-	//addNeighbor(vertex, 5, 6);
 	//
 	addNeighbor(vertex, 6, 3);
 
 	printVertices(vertex, VERTICES_SIZE);
-	BFS(vertex, vertex[0]->arr->next);
-	//DFS(vertex);
+	//BFS(vertex, vertex[0]->arr->next);
+	DFS(vertex);
+
+	// Send all reports to STDOUT
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDOUT);
+	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDOUT);
+
 	deallocGraph(vertex);
 	free(vertex);
+	_CrtDumpMemoryLeaks();
 }
 
 void BFS(LinkedList** G, Node* S) {
@@ -97,8 +107,8 @@ void BFS(LinkedList** G, Node* S) {
 
 void DFS(LinkedList** G) {
 	for (size_t u = 0; u < VERTICES_SIZE; u++) { // iterate all vertices
-		pi[u] = NILL;
 		Color[u] = WHITE;
+		pi[u] = NILL;
 	}
 
 	time = 0;
@@ -109,21 +119,30 @@ void DFS(LinkedList** G) {
 	printTable(d, sizeof(d) / sizeof(int), f, sizeof(f) / sizeof(int), pi, sizeof(pi) / sizeof(int), Color, sizeof(Color) / sizeof(int), NILL);
 }
 
-void DFS_Visit(LinkedList** G, Node* V, int u) {
-	Color[u] = GRAY; // update current vertex val
-	time += 1;
-	d[u] = time;
+/**
+* G - lists of linked list (Graph).
+* u - current vertex (Node).
+*  v_num = vertex value (int).
+**/
+void DFS_Visit(LinkedList** G, Node* u, int v_num) {
+	if (G == NULL || u == NULL)
+		return;
 
-	while (G[u]->arr != NULL) {
-		if (Color[G[u]->arr->val] == WHITE) {
-			pi[u] = G[u]->arr->val;
-			DFS_Visit(G, G[u]->arr, G[u]->arr->val);
+	Color[v_num] = GRAY; // update current vertex val.
+	time++;
+	d[v_num] = time;
+
+	while (u != NULL) {
+		if (Color[u->val] == WHITE) {
+			pi[u->val] = u->val;
+			DFS_Visit(G, G[u->val], u->val);
 		}
-		G[u]->arr = G[u]->arr->next;
+		u = u->next;
 	}
-	Color[u] = BLACK;
+
+	Color[v_num] = BLACK;
 	time += 1;
-	f[u] = time;
+	f[v_num] = time;
 }
 
 void printTable(int* distances, size_t d_size, int* finish, size_t f_size, int* pi, size_t pi_size, int* colors, size_t colors_size, int source_vertex) {
