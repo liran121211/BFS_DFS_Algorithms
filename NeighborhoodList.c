@@ -11,8 +11,8 @@ LinkedList** createNeighborhoodList(size_t size) {
 	return NULL;
 }
 
-void addNeighbor(LinkedList** neighborhood_list, int vertex, int value) {
-	addTail(neighborhood_list[vertex - 1], value - 1);
+void addNeighbor(LinkedList** neighborhood_list, int vertex, int value, int weight) {
+	addTail(neighborhood_list[vertex - 1], value - 1, weight);
 }
 
 void printVertices(LinkedList** neighborhood_lists, int size) {

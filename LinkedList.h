@@ -14,12 +14,14 @@ typedef struct LinkedList {
 
 //Functions
 LinkedList* List();
-void addTail(LinkedList*, int);
+void addTail(LinkedList*, int, int);
 void printList(LinkedList*);
-Node* getHead(LinkedList*);
-Node* getTail(LinkedList*);
 void removeTail(LinkedList*);
 void removeHead(LinkedList*);
 void deallocLinkedList(LinkedList*);
+void ModifyNode(LinkedList*, int, int);
+Node* getHead(LinkedList*);
+Node* getTail(LinkedList*);
+Node* findNode(LinkedList*, int);
 
 

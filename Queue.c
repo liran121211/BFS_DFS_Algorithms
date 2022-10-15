@@ -42,7 +42,7 @@ void enqueue(Queue* queue, int item)
     }
 
     queue->rear = (queue->rear + 1)% queue->capacity;
-    addTail(queue->array, item);
+    addTail(queue->array, item, FIXED_WEIGHT);
     queue->size = queue->size + 1;
     printf("[%d] enqueued to queue\n", item + 1);
 }

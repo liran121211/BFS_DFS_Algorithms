@@ -10,9 +10,10 @@
 **/
 typedef struct Node {
 	int val;
+	int weight;
 	struct Node* next;
 } Node;
 
 //Functions
-Node* makeNode(int);
+Node* makeNode(int, int);
 

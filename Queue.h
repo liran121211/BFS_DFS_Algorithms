@@ -1,5 +1,6 @@
 #pragma once
 #include"LinkedList.h"
+#define FIXED_WEIGHT 1
 
 //Structs
 typedef struct Queue {

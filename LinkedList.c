@@ -10,14 +10,14 @@ LinkedList* List() {
 }
 
 
-void addTail(LinkedList* list, int val) {
+void addTail(LinkedList* list, int val, int weight) {
 	if (list == NULL)
 		return;
 
 	Node* head = list->arr; // save head pointer
 
 	if (list->arr == NULL) {
-		list->arr = makeNode(val);
+		list->arr = makeNode(val, weight);
 		list->size++;
 		return;
 	}
@@ -25,7 +25,7 @@ void addTail(LinkedList* list, int val) {
 	while (list->arr->next != NULL)
 		list->arr = list->arr->next;
 
-	list->arr->next = makeNode(val);
+	list->arr->next = makeNode(val, weight);
 	list->size++;
 	list->arr = head; // return to head of the list.
 }
@@ -56,12 +56,12 @@ void printList(LinkedList* list) {
 		Node* head = list->arr;
 		while (list->arr != NULL) {
 			if (list->arr->next != NULL)
-				printf("[%d]-->", list->arr->val + 1);
+				printf("[Value:%d|Weight:%d]-->", list->arr->val + 1, list->arr->weight);
 			else
-				printf("[%d]\n", list->arr->val + 1);
+				printf("[Value:%d|Weight:%d]", list->arr->val + 1, list->arr->weight);
 			list->arr = list->arr->next;
 		}
-
+		printf("\n");
 		list->arr = head; // return to head of the list.
 	}
 }
@@ -107,7 +107,8 @@ void removeHead(LinkedList* list) {
 	if (list->arr->next == NULL) {
 		list->arr = NULL;
 		list->size--;
-	} else {
+	}
+	else {
 		removable_node = list->arr;
 		list->arr = list->arr->next;
 		list->size--;
@@ -121,4 +122,21 @@ void deallocLinkedList(LinkedList* list) {
 	while (list->size != 0) { // keep deleting node utill list is empty.
 		removeTail(list);
 	}
+}
+
+Node* findNode(LinkedList* list, int val) {
+	Node* temp = list->arr;
+
+	while (temp != NULL) {
+		if (temp->val == val)
+			return temp;
+		temp = temp->next;
+	}
+
+	return NULL;
+}
+
+void ModifyNode(LinkedList* list, int index, int new_val) {
+	if(findNode(list, index)!= NULL)
+		findNode(list, index)->val = new_val;
 }
